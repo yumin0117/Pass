@@ -1,4 +1,4 @@
-package p01;
+package p02;
 
 public class RunTest {
     public static void main(String[] args) {
