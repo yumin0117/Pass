@@ -7,6 +7,6 @@ public class VendingMachine extends Run{
 
     @Override
     public void drink(){
-        System.out.println(" ");
+        super.drink();
     }
 }

@@ -13,15 +13,15 @@ public abstract class Run {
         this.money = money;
     }
 
-    public String getDirnk() {
+    public String getDrink() {
         return drink;
     }
 
-    public void setDirnk(String dirnk) {
-        this.drink = dirnk;
+    public void setDrink(String drink) {
+        this.drink = drink;
     }
 
     public void drink(){
-        System.out.print("고르신 음료는 " + drink + "의 가격은 " + drinkMoney + "입니다. 투입하신 금액은 " + insertMoney + "입니다. 거스름돈은 " + money + "입니다.");
+        System.out.print("고르신 음료 " + drink + "의 가격은 " + drinkMoney + "입니다. 투입하신 금액은 " + insertMoney + "입니다. 거스름돈은 " + money + "입니다.");
     };
 }
