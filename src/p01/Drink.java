@@ -50,6 +50,7 @@ public class Drink {
         } else {
             System.out.println("\n1부터 5까지의 숫자를 입력해주세요: ");
             System.out.println("\n음료를 선택해주세요(숫자입력): ");
+            selectNum = s.nextInt();
         }
 
         for (Run run : drinkList) {
