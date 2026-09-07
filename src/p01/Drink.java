@@ -12,14 +12,14 @@ public class Drink {
         System.out.println("                 음료 자판기                 ");
         System.out.println("============================================");
 
-        System.out.println("\n돈을 투입해주세요: ");
+        System.out.print("\n돈을 투입해주세요: ");
         int insertMoney = s.nextInt();
 
         String drink;
         Integer drinkMoney = 0;
         Integer money = 0;
-        System.out.println("\n1. 데미소당\n2. 뚠딴지뽀내나맛유우\n3. 파뤌에이두\n4. 퐌타\n5. 갈지않은배");
-        System.out.println("\n음료를 선택해주세요(숫자입력): ");
+        System.out.print("\n1. 데미소당\n2. 뚠딴지뽀내나맛유우\n3. 파뤌에이두\n4. 퐌타\n5. 갈지않은배 \n");
+        System.out.print("\n음료를 선택해주세요(숫자입력): ");
         int selectNum = s.nextInt();
 
         if(selectNum == 1){

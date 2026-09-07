@@ -1,4 +1,4 @@
-package treasure_hunt;
+package p02;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -34,9 +34,9 @@ public class treasure_hunt {
             }
             System.out.println("-----------------");
 
-            System.out.println("파볼 땅의 행을 입력하세요: ");
+            System.out.print("\n파볼 땅의 행을 입력하세요: ");
             inputRow = s.nextInt() - 1;
-            System.out.println("파볼 땅의 열을 입력하세요: ");
+            System.out.print("파볼 땅의 열을 입력하세요: ");
             inputCol = s.nextInt() - 1;
 
             if(inputRow > 4 || inputCol > 4){
