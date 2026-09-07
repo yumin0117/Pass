@@ -24,7 +24,7 @@ public class treasure_hunt {
             System.out.println("\n--- 현재 지도 ---");
             for (int r = 0; r < 5; r++) {
                 for (int c = 0; c < 5; c++) {
-                    if (map[r][c] == 0 || map[r][c] == 1) {
+                    if (map[r][c] == 0) {
                         System.out.print("? ");
                     } else if (map[r][c] == 2) {
                         System.out.print("X ");
