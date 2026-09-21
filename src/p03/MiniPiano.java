@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class MiniPiano {
 
-    // 실제 소리 파일을 재생하는 함수
+    // 실제 소리 파일을 재생
     public static void playSound(String filePath) {
         try {
             File soundPath = new File(filePath);
@@ -25,7 +25,7 @@ public class MiniPiano {
         }
     }
 
-    // 숫자에 맞는 음계를 찾아주는 함수
+    // 숫자에 맞는 음계 찾기
     public static void playNote(int key) {
         if (key == 1) { playSound("sounds/do.wav"); System.out.println("🎵 도!"); }
         else if (key == 2) { playSound("sounds/re.wav"); System.out.println("🎵 레!"); }
@@ -33,7 +33,7 @@ public class MiniPiano {
         else if (key == 4) { playSound("sounds/fa.wav"); System.out.println("🎵 파!"); }
         else if (key == 5) { playSound("sounds/sol.wav"); System.out.println("🎵 솔!"); }
         else if (key == 6) { playSound("sounds/la.wav"); System.out.println("🎵 라!"); }
-        else if (key == 7) { playSound("sounds/si.wav"); System.out.println("🎵 시!"); } // '시' 추가 완료!
+        else if (key == 7) { playSound("sounds/si.wav"); System.out.println("🎵 시!"); }
     }
 
     // 연주

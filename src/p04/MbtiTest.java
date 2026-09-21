@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class MbtiTest {
-    private Scanner sc = new Scanner(System.in);
+    private Scanner s = new Scanner(System.in);
     private Random random = new Random();
 
     private QuestionData questionData = new QuestionData();
@@ -24,7 +24,7 @@ public class MbtiTest {
         String mbti = scoreManager.calculateMBTI();
 
         printResult(mbti);
-        sc.close();
+        s.close();
     }
 
     public void makeOrder() {
@@ -59,7 +59,7 @@ public class MbtiTest {
             System.out.println((i + 1) + " / " + questions.length);
 
             int answer = askQuestion(
-                    sc,
+                    s,
                     questions[qNum],
                     optionsText
             );
@@ -68,7 +68,7 @@ public class MbtiTest {
         }
     }
 
-    public int askQuestion(Scanner sc, String question, String options) {
+    public int askQuestion(Scanner s, String question, String options) {
         int answer;
 
         while (true) {
@@ -76,7 +76,7 @@ public class MbtiTest {
             System.out.println(options);
             System.out.print("답변 입력 : ");
 
-            answer = sc.nextInt();
+            answer = s.nextInt();
 
             if (answer >= 1 && answer <= 5) {
                 return answer;
