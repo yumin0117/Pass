@@ -1,0 +1,168 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f5f7fa;
+    font-family: Arial, sans-serif;
+    color: #222;
+}
+
+.container {
+    width: 90%;
+    max-width: 850px;
+    margin: 40px auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #666;
+    font-size: 16px;
+}
+
+.question-box {
+    background-color: white;
+    border: 1px solid #dddddd;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.question-number {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.question-text {
+    font-size: 19px;
+    font-weight: bold;
+    line-height: 1.5;
+    margin-bottom: 22px;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.option-label {
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+}
+
+.option-label input {
+    display: none;
+}
+
+.option-label span {
+    display: block;
+    padding: 13px 5px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    background-color: #fafafa;
+    transition: 0.2s;
+}
+
+.option-label span:hover {
+    background-color: #eeeeee;
+}
+
+.option-label input:checked + span {
+    background-color: #222;
+    color: white;
+    border-color: #222;
+}
+
+.option-description {
+    display: flex;
+    justify-content: space-between;
+    color: #888;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+#resultBtn,
+#restartBtn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: #222;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#resultBtn:hover,
+#restartBtn:hover {
+    background-color: #444;
+}
+
+#warning {
+    text-align: center;
+    color: #d33;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.result-box {
+    display: none;
+    background-color: white;
+    border: 1px solid #dddddd;
+    border-radius: 15px;
+    text-align: center;
+    margin-top: 30px;
+    padding: 40px 25px;
+}
+
+.result-title {
+    font-size: 18px;
+    color: #555;
+}
+
+#mbtiResult {
+    font-size: 52px;
+    margin: 15px 0 30px;
+}
+
+@media screen and (max-width: 600px) {
+    .container {
+        width: 94%;
+        margin-top: 20px;
+    }
+
+    header h1 {
+        font-size: 28px;
+    }
+
+    .question-box {
+        padding: 18px;
+    }
+
+    .question-text {
+        font-size: 17px;
+    }
+
+    .options {
+        gap: 5px;
+    }
+
+    .option-label span {
+        padding: 12px 2px;
+    }
+}

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>미니 MBTI 검사기</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background-color: #f5f6f8;
+            font-family: Arial, "맑은 고딕", sans-serif;
+            color: #222;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 40px auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+            font-size: 36px;
+        }
+
+        header p {
+            margin: 0;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .notice {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #fff;
+            border-radius: 8px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .question-box {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            margin-bottom: 10px;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .question-text {
+            margin-bottom: 22px;
+            font-size: 19px;
+            font-weight: bold;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .option-label {
+            flex: 1;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .option-label input {
+            display: none;
+        }
+
+        .option-label span {
+            display: block;
+            padding: 14px 5px;
+            background-color: #fafafa;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .option-label span:hover {
+            background-color: #eee;
+        }
+
+        .option-label input:checked + span {
+            background-color: #222;
+            border-color: #222;
+            color: white;
+        }
+
+        .option-description {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            color: #888;
+            font-size: 13px;
+        }
+
+        #resultBtn,
+        #restartBtn {
+            width: 100%;
+            padding: 17px;
+            border: none;
+            border-radius: 10px;
+            background-color: #222;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #resultBtn:hover,
+        #restartBtn:hover {
+            background-color: #444;
+        }
+
+        #warning {
+            min-height: 25px;
+            margin-top: 15px;
+            color: #d33;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .result-box {
+            display: none;
+            margin-top: 30px;
+            padding: 40px 25px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .result-title {
+            margin: 0;
+            color: #666;
+            font-size: 18px;
+        }
+
+        #mbtiResult {
+            margin: 15px 0 30px;
+            font-size: 55px;
+        }
+
+        .unanswered {
+            border: 2px solid #e06666;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 94%;
+                margin-top: 20px;
+            }
+
+            header h1 {
+                font-size: 28px;
+            }
+
+            .question-box {
+                padding: 18px;
+            }
+
+            .question-text {
+                font-size: 17px;
+            }
+
+            .options {
+                gap: 5px;
+            }
+
+            .option-label span {
+                padding: 12px 2px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <header>
+        <h1>MINI MBTI TEST</h1>
+        <p>각 질문을 읽고 자신에게 가장 가까운 답변을 선택해주세요.</p>
+        <div class="notice">
+            질문 순서는 검사할 때마다 무작위로 변경됩니다.
+        </div>
+    </header>
+
+    <main>
+        <div id="questionList"></div>
+
+        <button id="resultBtn" type="button">결과 확인</button>
+
+        <p id="warning"></p>
+
+        <div id="resultBox" class="result-box">
+            <p class="result-title">당신의 MBTI는</p>
+            <h2 id="mbtiResult"></h2>
+            <button id="restartBtn" type="button">다시 검사하기</button>
+        </div>
+    </main>
+</div>
+
+<script>
+    // ========================================
+    // 질문 데이터
+    // 0~2   : E / I
+    // 3~5   : S / N
+    // 6~8   : T / F
+    // 9~11  : J / P
+    // ========================================
+
+    const questions = [
+        // E / I
+        "사람들과 함께 있을 때 에너지가 생긴다.",
+        "처음 만난 사람에게 먼저 말을 거는 편이다.",
+        "혼자 있는 것보다 여러 사람과 어울리는 것을 좋아한다.",
+
+        // S / N
+        "상상보다는 실제 경험과 사실을 중요하게 생각한다.",
+        "설명을 들을 때 구체적인 예시가 있는 것이 좋다.",
+        "미래의 가능성보다 현재 상황에 집중하는 편이다.",
+
+        // T / F
+        "결정을 내릴 때 감정보다 논리를 중요하게 생각한다.",
+        "친구의 고민을 들으면 공감보다 해결 방법을 먼저 생각한다.",
+        "사람의 기분보다 객관적인 사실이 더 중요하다고 생각한다.",
+
+        // J / P
+        "일을 시작하기 전에 계획을 세우는 편이다.",
+        "약속이나 과제는 미리 준비하는 것이 마음이 편하다.",
+        "계획 없이 즉흥적으로 행동하는 것보다 정해진 일정이 좋다."
+    ];
+
+    let order = [];
+    let answers = new Array(questions.length).fill(0);
+
+    const questionList = document.getElementById("questionList");
+    const resultBtn = document.getElementById("resultBtn");
+    const warning = document.getElementById("warning");
+    const resultBox = document.getElementById("resultBox");
+    const mbtiResult = document.getElementById("mbtiResult");
+    const restartBtn = document.getElementById("restartBtn");
+
+
+    // 질문 번호 만들기
+    function makeOrder() {
+        order = [];
+
+        for (let i = 0; i < questions.length; i++) {
+            order.push(i);
+        }
+    }
+
+
+    // 질문 순서 랜덤 섞기
+    function shuffleOrder() {
+        for (let i = order.length - 1; i > 0; i--) {
+            let randomIndex = Math.floor(Math.random() * (i + 1));
+
+            let temp = order[i];
+            order[i] = order[randomIndex];
+            order[randomIndex] = temp;
+        }
+    }
+
+
+    // 선택지 만들기
+    function createOptions(qNum) {
+        let html = "";
+
+        for (let score = 1; score <= 5; score++) {
+            html += `
+            <label class="option-label">
+                <input type="radio"
+                       name="question${qNum}"
+                       value="${score}"
+                       data-question="${qNum}">
+                <span>${score}</span>
+            </label>
+        `;
+        }
+
+        return html;
+    }
+
+
+    // 질문 전체 출력
+    function showQuestions() {
+        questionList.innerHTML = "";
+
+        for (let i = 0; i < order.length; i++) {
+            let qNum = order[i];
+
+            let questionBox = document.createElement("div");
+
+            questionBox.className = "question-box";
+            questionBox.dataset.qnum = qNum;
+
+            questionBox.innerHTML = `
+            <div class="question-number">
+                ${i + 1} / ${questions.length}
+            </div>
+
+            <div class="question-text">
+                ${questions[qNum]}
+            </div>
+
+            <div class="options">
+                ${createOptions(qNum)}
+            </div>
+
+            <div class="option-description">
+                <span>매우 아니다</span>
+                <span>매우 그렇다</span>
+            </div>
+        `;
+
+            questionList.appendChild(questionBox);
+        }
+
+        addOptionEvents();
+    }
+
+
+    // 선택지 클릭 처리
+    function addOptionEvents() {
+        const radioButtons =
+            document.querySelectorAll('input[type="radio"]');
+
+        radioButtons.forEach(function(radio) {
+            radio.addEventListener("change", function() {
+                let qNum = Number(this.dataset.question);
+                let score = Number(this.value);
+
+                answers[qNum] = score;
+
+                warning.textContent = "";
+
+                const box = this.closest(".question-box");
+                box.classList.remove("unanswered");
+            });
+        });
+    }
+
+
+    // 답하지 않은 질문 찾기
+    function findUnanswered() {
+        for (let i = 0; i < answers.length; i++) {
+            if (answers[i] === 0) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+
+    // MBTI 계산
+    function calculateMBTI() {
+        let scores = [0, 0, 0, 0];
+
+        for (let qNum = 0; qNum < answers.length; qNum++) {
+            let scoreIndex = Math.floor(qNum / 3);
+            scores[scoreIndex] += answers[qNum];
+        }
+
+        let firstType = ["E", "S", "T", "J"];
+        let secondType = ["I", "N", "F", "P"];
+
+        let mbti = "";
+
+        for (let i = 0; i < scores.length; i++) {
+            if (scores[i] > 9) {
+                mbti += firstType[i];
+            } else {
+                mbti += secondType[i];
+            }
+        }
+
+        return mbti;
+    }
+
+
+    // 결과 확인
+    resultBtn.addEventListener("click", function() {
+        document.querySelectorAll(".question-box").forEach(function(box) {
+            box.classList.remove("unanswered");
+        });
+
+        let unansweredNum = findUnanswered();
+
+        if (unansweredNum !== -1) {
+            warning.textContent =
+                "아직 답하지 않은 질문이 있습니다. 모든 질문에 답해주세요.";
+
+            let unansweredBox = document.querySelector(
+                `.question-box[data-qnum="${unansweredNum}"]`
+            );
+
+            unansweredBox.classList.add("unanswered");
+
+            unansweredBox.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+            return;
+        }
+
+        let mbti = calculateMBTI();
+
+        mbtiResult.textContent = mbti;
+        resultBox.style.display = "block";
+
+        resultBox.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    });
+
+
+    // 다시 검사하기
+    restartBtn.addEventListener("click", function() {
+        answers = new Array(questions.length).fill(0);
+
+        warning.textContent = "";
+        resultBox.style.display = "none";
+
+        makeOrder();
+        shuffleOrder();
+        showQuestions();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+
+
+    // 프로그램 시작
+    function start() {
+        makeOrder();
+        shuffleOrder();
+        showQuestions();
+    }
+
+    start();
+</script>
+
+</body>
+</html>
