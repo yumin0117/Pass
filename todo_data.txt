@@ -1,0 +1,3 @@
+1,10.2,패스 과제,true
+2,10.30,fd,false
+3,9.24,fsjlf,false
